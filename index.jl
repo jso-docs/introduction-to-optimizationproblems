@@ -1,34 +1,60 @@
-# # Template for jso-docs separate pages
-
-# \toc
-
-# Modify this file
-
-# ## Testing
-
-# Testing
-
-A = rand(5, 5)
-b = A * ones(5)
-x = A \ b
-
-# Testing
-
-using LinearAlgebra
-norm(A * x - b), norm(x .- 1)
-
 #=
-## Plotting
 
-Use `joinpath("__site/assets", filename)` as the path to save the image in the right place and use `{{ rfig filename.ext Caption of image }}` to add the image afterwards.
-It is a good idea to use `# hide` so the save command doesn't appear. See the example below.
+In this tutorial, we will see how to access the problems in [JuMP](https://github.com/JuliaOpt/JuMP.jl) and [ADNLPModel](https://github.com/JuliaSmoothOptimizers/ADNLPModels.jl) syntax.
+This package is subdivided in two submodules: `PureJuMP` for the JuMP problems, `ADNLPProblems` for the ADNLPModel problems.
+
+## Problems in JuMP syntax: PureJuMP
+
+You can obtain the list of problems currently defined with `names(OptimizationProblems.PureJuMP)` that returns the list of exported names of the submodule. The symbol `:PureJuMP` is itself in this list.
 =#
+using OptimizationProblems, OptimizationProblems.PureJuMP
+problems = setdiff(names(OptimizationProblems.PureJuMP), [:PureJuMP])
+length(problems)
+#=
+Then, it suffices to select any of this problem to get the JuMP model.
+=#
+jump_model = zangwil3()
+#=
+Note that some of these problems are scalable, i.e., their size depends on some parameters that can be modified.
+=#
+jump_model_12 = woods(n=12)
+#=
+=#
+jump_model_120 = woods(n=120)
+#=
+These problems can be converted as [NLPModels](https://github.com/JuliaSmoothOptimizers/NLPModels.jl) via [NLPModelsJuMP](https://github.com/JuliaSmoothOptimizers/NLPModelsJuMP.jl) to facilitate evaluating
+objective, constraints and their derivatives as we will see in the benchmark section.
 
-using Plots
+## Problems in ADNLPModel syntax: ADNLPProblems
 
-x = rand(3)
-y = rand(3)
-plot(x, y)
-png(joinpath("__site/assets", "myplot")) # hide
-
-# {{ rfig myplot.png Example of plot and description }}
+This package also offers [ADNLPModel](https://github.com/JuliaSmoothOptimizers/ADNLPModels.jl) test problems. This is an optional dependency, so `ADNLPModels` has to be added first.
+=#
+using ADNLPModels
+#=
+You can obtain the list of problems currently defined with `names(OptimizationProblems.ADNLPProblems)` that returns the list of exported names of the submodule. The symbol `:ADNLPProblems` is itself in this list.
+=#
+using OptimizationProblems, OptimizationProblems.ADNLPProblems
+problems = setdiff(names(OptimizationProblems.ADNLPProblems), [:ADNLPProblems])
+length(problems)
+#=
+Similarly, to the PureJuMP models, it suffices to select any of this problem to get the model.
+=#
+nlp = zangwil3()
+#=
+Note that some of these problems are scalable, i.e., their size depends on some parameters that can be modified.
+=#
+nlp_12 = woods(n=12)
+#=
+=#
+nlp_120 = woods(n=120)
+#=
+One of the advantages of these problems is that they are type-stable. Indeed, one can specify the output type with the keyword `type` as follows.
+=#
+nlp16_12 = woods(n=12, type=Val(Float16))
+#=
+Then, all the API will be compatible with the precised type.
+=#
+using NLPModels
+obj(nlp16_12, zeros(Float16, 12))
+#=
+=#
