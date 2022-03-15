@@ -1,2 +1,4 @@
 # This file was generated, do not modify it. # hide
-#=tmp/jl_Igernq=#
+using OptimizationProblems, OptimizationProblems.PureJuMP
+problems = setdiff(names(OptimizationProblems.PureJuMP), [:PureJuMP])
+length(problems)
