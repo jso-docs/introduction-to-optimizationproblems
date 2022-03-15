@@ -1,3 +1,0 @@
-ArgumentError: Package OptimizationProblems not found in current path:
-- Run `import Pkg; Pkg.add("OptimizationProblems")` to install the OptimizationProblems package.
-
