@@ -1,4 +1,4 @@
 MethodError: no method matching obj(::JuMP.Model, ::Vector{Float16})
 Closest candidates are:
-  obj(!Matched::NLPModels.AbstractNLSModel, ::AbstractVector) at ~/.julia/packages/NLPModels/xTGGo/src/nls/api.jl:391
-  obj(!Matched::ADNLPModels.ADNLPModel, ::AbstractVector) at ~/.julia/packages/ADNLPModels/SGUdz/src/nlp.jl:209
+  obj(!Matched::NLPModels.AbstractNLSModel, ::AbstractVector) at ~/.julia/packages/NLPModels/XbkGs/src/nls/api.jl:391
+  obj(!Matched::ADNLPModels.ADNLPModel, ::AbstractVector) at ~/.julia/packages/ADNLPModels/q67fF/src/nlp.jl:214
